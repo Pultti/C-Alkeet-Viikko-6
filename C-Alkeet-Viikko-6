@@ -1,0 +1,637 @@
+                               /*Pitkä Koodi, Yhdistin t.4, 5 ja 6 tähän. 
+                              
+                                  4. Kirjoita ohjelma,
+                                    -jossa on tietue nimeltään Student, jossa seuraavat kentät:
+                                    • id INT
+                                    • name CHAR(50)
+                                    • age INT
+                                    -Luo Student-tyyppinen taulukko, johon voidaan tallentaa 5 alkiota.
+                                    -Lisää koodi, jolla käyttäjältä kysellään viiden opiskelijan tiedot ja ne tallennetaan em. taulukkoon.
+                                    -Lisää koodi, jolla em. opiskelijoiden tiedot tulostetaan ruudulle.
+                                    
+                                    5. Kirjoita ohjelma, joka toimii kuten edellinen sovellus, mutta lopuksi ohjelma kysyy:
+                                    • Haluatko tallentaa tiedot (Kyllä=1 /Ei=2)?
+                                    • Jos käyttäjä vastaa 1(eli Kyllä), tiedot kirjoitetaan tiedostoon nimeltä c:/temp/students_data.txt
+                                    siten, että:
+                                    • Kunkin opiskelijan tiedot kirjoitetaan omalle rivilleen
+                                    • kenttien väliin tulee pilkku
+                                    • Tarkista esim. Notepadillä, että tiedoston muoto on oikein
+                                    
+                                     VK.6, T.6 - Ohjelma, joka kysyy käyttäjältä opiskelijan ID:n. Sitten ohjelma etsii tiedostosta
+                                  c:/temp/students_data.txt annettua ID:tä vastaavan opiskelijan tiedot ruudulle, jos annettua id:tä
+                                  ei löydy, tulosta teksti ”Antamaasi id:tä ei löydy”. */
+                                    
+
+#include <stdio.h>
+#include <string.h>
+#include <stdlib.h>
+#define LKM 2
+
+
+typedef struct Student_struct{
+    char name[50];
+    int id;
+    int age;
+
+}
+Student;
+
+int main()
+{
+
+    FILE *filepointer;
+    filepointer=fopen("C:/work/temp/students_data.txt","r+");
+
+    if (filepointer == NULL)
+    {
+       perror("Error while opening the file.\n");
+       exit(EXIT_FAILURE);
+    }
+
+    Student p1[LKM];
+    
+    char nimi[50]="XXX";
+    char lopetus[]="LOPETA";
+    int i=0;
+
+    printf("Anna Max: 5 oppilaan tiedot. Nimi, ika ja opiskelijanumero! \n\n");
+
+    while (i< LKM) //Taulukko tiivistettynä
+        {
+        printf("%d Oppilas \n", i+1);
+        scanf("%s" "%d" "%d", p1[i].name, &p1[i].id, &p1[i].age);
+        i++;
+        }
+
+                // Taulukon tulostus pyynnöstä
+
+    while(strcmp(nimi, lopetus) !=0) {
+        printf("Anna opiskelijan nimi \n \n");
+        scanf("%s", nimi);
+        for (i=0; i<LKM; i++) {
+          if (strcmp(p1[i].name,nimi)==0){
+          printf("%d. Opiskelija : %s-%d-%d. \n \n", i+1, p1[i].name, p1[i].id, p1[i].age);
+
+                 // Tietojen tallennus
+
+          int valinta=0;
+          printf("Haluatko tallentaa tiedot (Yes=1/No=2 \n");
+          scanf("%d", &valinta);
+          if (valinta==1){
+              printf("Tallennetaan tietoja \n");
+              fprintf(filepointer,"%d. Opiskelija: Nimi: %s, ika: %d, opiskelijanumero: %d. \n \n", i+1, p1[i].name, p1[i].id, p1[i].age);
+          } else {
+              printf("Tietoja ei tallennettu \n");
+          }}}
+
+          fclose(filepointer);
+
+             //Yritys tulostaa opiskelijan Id, yllä olevilla tiedoilla. muuten toimii kyllä toi 4+5 yhdistäminen
+
+          char data[255];
+          int annettuId, id;  //luettuid?
+          int loyty=0;
+
+          FILE *filepointer;
+          filepointer=fopen("C:/work/temp/students_data.txt","r+");
+
+          if (filepointer == NULL)
+          {
+             perror("Error while opening the file.\n");
+             exit(EXIT_FAILURE);
+          }
+
+    printf("Anna Id \n");
+    scanf("%d", &annettuId);
+
+    while(!feof(filepointer)) {
+         fscanf(filepointer,"%d", &p1[i].id);
+         fgets(data,255,filepointer);
+         if (p1[i].id==annettuId) {
+           printf("Data on: %s \n", data);
+           loyty=1;
+            }}
+           if(loyty==0) printf("Antamaasi ID:ta ei loytynyt! \n");
+
+           }
+
+    fclose(filepointer);
+
+    return 0;
+}
+
+-----------------------------------------------------------------------------------------------------------------------------
+                        
+  /*
+   #include <stdlib.h>
+  #include <string.h>
+  #define LKM 3;
+
+int main()
+{
+   FILE *filepointer;
+
+   filepointer=fopen("C:/work/temp/students_data.txt","w+");
+
+   if ((filepointer == NULL) || (tokapointer == NULL))
+   {
+      perror("Error while opening the file.\n");
+      exit(EXIT_FAILURE);
+   }
+
+   int LKM=0;
+   char sana[50];
+   fscanf(filepointer, "%s", &sana);
+   while(!feof(filepointer)) {
+        LKM=LKM+1;
+        fscanf(filepointer, "%s", &sana);
+   }
+
+   int R=0;
+   char row[255];
+   fgets(row, 255, tokapointer);
+   while(!feof(tokapointer)){
+       R=R+1;
+       printf("%s",row);
+       fgets(row, 255, tokapointer);
+   }
+
+   printf("\nSanojen lukumaara on %d \n", LKM);
+   printf("rivien maara on %d \n", R );
+
+   fclose(filepointer);
+   fclose(tokapointer);
+
+   return 0;
+}
+*/
+------------------------------------------------------------------------------------------------------------------
+                            
+/*
+printf("Tiedoston tallennus kyllä=1 / ei=2? \n");
+scanf("%d", &valinta);
+if (valinta==1) {
+    y=0;
+    while(y<COUNT){
+        fprintf(tokapointer,"%d", jne jne jne );
+        y++; //täs käytetty y;
+    }
+}
+fclose(tokapointer);  //Muista sulkea tiedostot kun käyttänyt!!!
+
+//voit kyllä käyttää vanhaakin tiedostoa ja voi myös käyttää R ja W vaihtelevasti
+
+*/
+
+
+----------------------------------------------------------------------------------------------------
+
+/* 
+#include <stdlib.h> //Tämä on tehtävä 6 erillisinä... HOX!!!
+
+int main()
+{
+   FILE *filepointer;
+   char data[255];
+   int annettuId, luettuId;
+   int loyty=0;
+
+
+   filepointer=fopen("C:/work/temp/students_data.txt","r");
+
+   if (filepointer == NULL)
+   {
+      perror("Error while opening the file.\n");
+      exit(EXIT_FAILURE);
+   }
+
+   printf("Anna Id \n");
+   scanf("%d", &annettuId);
+
+   while(!feof(filepointer)) {
+      fscanf(filepointer,"%d", &luettuId);
+      fgets(data,255,filepointer);
+      if (luettuId==annettuId) {
+          printf("Data on: %s \n", data);
+          loyty=1;
+      }
+      }
+   if(loyty==0) printf("Antamaasi ID:ta ei loytynyt! \n");
+
+   fclose(filepointer);
+   return 0;
+} 
+*/
+
+----------------------------------------------------------------------------------------------------------
+
+                                 /* VK.6, Teht. 3 - Ohjelma, joka laskee tiedostossa olevien sanojen ja rivien määrän.
+                                    Käytetään sääntönä, että sanojen erottimena toimii vain välilyönti. */
+
+
+/* 
+#include <stdlib.h>
+
+int main()
+{
+   FILE *filepointer;
+
+   filepointer=fopen("C:/work/temp/students_data.txt","w+");
+
+   if ((filepointer == NULL) || (tokapointer == NULL))
+   {
+      perror("Error while opening the file.\n");
+      exit(EXIT_FAILURE);
+   }
+
+   int LKM=0;
+   char sana[50];
+   fscanf(filepointer, "%s", &sana);
+   while(!feof(filepointer)) {
+        LKM=LKM+1;
+        fscanf(filepointer, "%s", &sana);
+   }
+
+   int R=0;
+   char row[255];
+   fgets(row, 255, tokapointer);
+   while(!feof(tokapointer)){
+       R=R+1;
+       printf("%s",row);
+       fgets(row, 255, tokapointer);
+   }
+
+   printf("\nSanojen lukumaara on %d \n", LKM);
+   printf("rivien maara on %d \n", R );
+
+   fclose(filepointer);
+   fclose(tokapointer);
+
+   return 0;
+}
+*/
+
+----------------------------------------------------------------------------------------------------------
+
+/* 
+#include <string.h>
+#include <stdlib.h>
+#define LKM 2
+
+
+typedef struct Student_struct{
+    char name[50];
+    int id;
+    int age;
+
+}
+Student;
+
+int main()
+{
+
+    FILE *filepointer;
+    filepointer=fopen("C:/work/temp/students_data.txt","w+");
+
+    Student p1[LKM];
+    char nimi[50]="XXX";
+    char lopetus[]="LOPETA";
+    int i=0;
+
+    printf("Anna Max: 5 oppilaan tiedot. Nimi, ika ja opiskelijanumero! \n\n");
+
+    while (i< LKM) //Taulukko tiivistettynä
+        {
+        printf("%d Oppilas \n", i+1);
+        scanf("%s" "%d" "%d", p1[i].name, &p1[i].id, &p1[i].age);
+        i++;
+        }
+
+        // Taulukon tulostus pyynnöstä
+
+    while(strcmp(nimi, lopetus) !=0) {
+        printf("Anna opiskelijan nimi \n \n");
+        scanf("%s", nimi);
+        for (i=0; i<LKM; i++) {
+          if (strcmp(p1[i].name,nimi)==0){
+          printf("%d. Opiskelija : %s-%d-%d. \n \n", i+1, p1[i].name, p1[i].id, p1[i].age);
+
+          // Tietojen tallennus
+
+          int valinta=0;
+          printf("Haluatko tallentaa tiedot (Yes=1/No=2 \n");
+          scanf("%d", &valinta);
+          if (valinta==1){
+              printf("Tallennetaan tietoja \n");
+              fprintf(filepointer,"%d. Opiskelija: Nimi: %s, ika: %d, opiskelijanumero: %d. \n \n", i+1, p1[i].name, p1[i].id, p1[i].age);
+          } else {
+              printf("Tietoja ei tallennettu \n");              
+          }}}
+
+          //Yritys tulostaa opiskelijan Id, yllä olevilla tiedoilla.
+
+    char data[255];
+    int annettuId, id;
+    int loyty=0;
+
+    printf("Anna Id \n");
+    scanf("%d", &annettuId);
+
+    while(!feof(filepointer)) {
+         fscanf(filepointer,"%d", &p1[i].id);
+         fgets(data,255,filepointer);
+         if (p1[i].id==annettuId) {
+           printf("Data on: %s \n", data);
+           loyty=1;
+            }}
+           if(loyty==0) printf("Antamaasi ID:ta ei loytynyt! \n");
+
+           }
+
+    fclose(filepointer);
+
+    return 0;
+} 
+*/
+
+---------------------------------------------------------------------------------------------
+
+  /* 
+  printf("Anna opiskelijan ID numero! \n");
+    fscanf(filepointer, "%d", &p1[i].id);
+    while(!feof(filepointer)) {
+         printf("%d", p1[i].id);
+         fscanf(filepointer, "%d", &p1[i].id);
+    } if (filepointer == NULL) {
+        printf("Antamaasi id:ta ei löydy.\n");
+    } 
+   */
+
+-------------------------------------------------------------------------------------------------------
+
+/*
+#include <string.h>
+// #include <stdlib.h>
+#define LKM 3
+
+typedef struct Student_struct{
+    char name[50];
+    int id;
+    int age;
+
+}
+Student;
+
+int main()
+{
+
+    Student p1[LKM];
+    char nimi[50]="XXX";
+    char lopetus[]="LOPETA";
+    int i=0;
+
+    printf("Anna Max: 5 oppilaan tiedot. Nimi, ika ja opiskelijanumero! \n\n");
+
+    while (i< LKM)
+        {
+        printf("%d Oppilas \n", i+1);
+
+        scanf("%s" "%d" "%d", p1[i].name, &p1[i].id, &p1[i].age);
+
+        i++;
+        }
+
+        while(strcmp(nimi, lopetus) !=0) {
+            printf("Anna opiskelijan nimi \n \n");
+            scanf("%s", nimi);
+            for (i=0; i<LKM; i++) {
+              if (strcmp(p1[i].name,nimi)==0){
+              printf("%d. Opiskelija : %s-%d-%d. \n \n", i+1, p1[i].name, p1[i].id, p1[i].age);
+            }}}
+    return 0;
+}
+*/
+
+---------------------------------------------------------------------------------------------------------------------
+
+/* 
+#include <stdlib.h>
+
+int main()
+{
+   FILE *filepointer;
+   FILE *tokapointer;
+
+   filepointer=fopen("C:/work/temp/test2.txt","r");
+   tokapointer=fopen("C:/work/temp/test2.txt","r");
+
+   if ((filepointer == NULL) || (tokapointer == NULL))
+   {
+      perror("Error while opening the file.\n");
+      exit(EXIT_FAILURE);
+   }
+
+   int LKM=0;
+   char sana[50];
+   fscanf(filepointer, "%s", &sana);
+   while(!feof(filepointer)) {
+        LKM=LKM+1;
+        fscanf(filepointer, "%s", &sana);
+   }
+
+   int R=0;
+   char row[255];
+   fgets(row, 255, tokapointer);
+   while(!feof(tokapointer)){
+       R=R+1;
+       printf("%s",row);
+       fgets(row, 255, tokapointer);
+   }
+
+   printf("\nSanojen lukumaara on %d \n", LKM);
+   printf("rivien maara on %d \n", R );
+
+   fclose(filepointer);
+   fclose(tokapointer);
+
+   return 0;
+}
+*/
+
+-----------------------------------------------------------------------------------------------------------------------
+                                 /*   Vk.6 - T.2 - Luo jollain editorilla (esim. Notepad) tiedosto nimeltään source.txt jossa seuraavat tiedot
+                                      Matti, Mainio, Oulu, 28
+                                      Jussi, Jonio, Turku, 32
+                                      Liisa, Joki, Tampere, 24
+                                      Aino, Virta, Oulu, 23
+                                      Liisa, Joki, Tamprere, 28
+                                      Kirjoita sitten ohjelma, joka lukee tiedostoa ja kirjoittaa uuden tiedoston nimeltään target.txt, jossa
+                                      kaikki pilkut on korvattu puolipisteellä. */
+/* 
+#include <stdlib.h>
+
+int main()
+{
+
+ FILE *filepointer;
+ FILE *target;
+
+
+ filepointer=fopen("C:/Qt/QTwork/source.txt","r");
+ target =fopen("C:/Qt/QTwork/target.txt","w");
+    if ((filepointer == NULL ) || ( target == NULL))
+      {
+       perror("Error while opening the file.\n");
+       exit(EXIT_FAILURE);
+      }
+//tiedoston tulostus
+  char sanat[100];
+  fscanf(filepointer, "%c", sanat);
+  while(!feof(filepointer)) {
+       printf("%s", sanat);
+       fscanf(filepointer, "%c", sanat);
+       }
+
+  printf("\n\nTiedoston sisalla olevat , on vaihdettu ; \n\n");
+
+//merkin vaihto
+  char word;
+  while((word = fgetc(filepointer)) != EOF) {
+     if (word ==',') fputc(';' ,target );
+     else fputc(word, target);
+    }
+
+  fclose(filepointer);
+  fclose(target);
+
+  return 0;
+}
+*/
+
+-------------------------------------------------------------------------------------------------------------------
+                                     // VK.6 - T.1 - Kirjoita ohjelma, joka kysyy käyttäjän nimen ja tallentaa sen tiedostoon
+/*  
+#include <stdlib.h>
+
+int main()
+{
+
+  FILE *filepointer;
+  char nimi[30];
+  filepointer=fopen("C:/Qt/QTwork/test3.txt","a");
+
+   if (filepointer == NULL)
+   {
+      perror("Error while opening the file.\n");
+      exit(EXIT_FAILURE);
+   }
+   // tiedostoon kirjoitus
+   scanf("%s", &nimi);
+   fprintf(filepointer,"%s \n", nimi);
+
+   fclose(filepointer);
+
+   return 0;
+
+} 
+*/
+
+--------------------------------------------------------------------------------------------------------------
+
+/* 
+#include <stdlib.h>
+
+int main()
+{
+   FILE *filepointer;
+   FILE *tokapointer;
+
+   char ch;
+   filepointer=fopen("C:/Qt/QTwork/test2.txt","r");
+   tokapointer=fopen("C:/Qt/QTwork/test3.txt","w");
+
+   if ((filepointer == NULL) || (tokapointer == NULL))
+   {
+      perror("Error while opening the file.\n");
+      exit(EXIT_FAILURE);
+   }
+
+   int LKM=0;
+   char word[50];
+   fscanf(filepointer, "%s", &word);
+   while(!feof(filepointer)) {
+        LKM=LKM+1;
+        printf("%s \n", word);
+        fscanf(filepointer, "%s", &word);
+
+   }
+   printf("Sanojen lukumaara on %d \n", LKM);
+
+   fclose(filepointer);
+   fclose(tokapointer);
+
+   return 0;
+}
+   */
+   
+-------------------------------------------------------------------------
+
+    /*
+   printf("The contents of file is:\n");
+
+   //merkin vaihto
+   while((ch = fgetc(filepointer)) != EOF) {
+      if (ch==',') fputc(';' ,tokapointer );
+      else fputc(ch, tokapointer);
+
+          printf("%c", ch);
+
+*/
+
+-------------------------------------------------------------------
+
+ /*
+#include <stdio.h>
+#include <stdlib.h>
+
+int main()
+{
+   FILE *filepointer;
+   char ch;
+     filepointer=fopen("C:/Qt/QTwork/test3.txt","w");
+   //filepointer=fopen("C:/Qt/QTwork/test2.txt","a");
+
+   if (filepointer == NULL)
+   {
+      perror("Error while opening the file.\n");
+      exit(EXIT_FAILURE);
+   }
+   // tiedostoon kirjoitus
+   fprintf(filepointer,"Hello world\n");
+   fprintf(filepointer, "Hello world again \n");
+
+   char merkki='a';
+   fputc(merkki, filepointer);
+   fputc('B', filepointer);
+   fputc('C', filepointer);
+   fputc('\n', filepointer);
+   fputc('D', filepointer);
+
+   fclose(filepointer);
+
+     return 0;
+
+} */
+
+----------------------------------------------------------------------
+
+ /* 
+ printf("The contents of file is:\n");
+
+   while((ch = fgetc(filepointer)) != EOF)
+      printf("%c", ch);
+
+   fclose(filepointer);
+   return 0;
+} 
+*/
